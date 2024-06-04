@@ -68,10 +68,12 @@ func Paring_txt_flights(filepath string) ([]f.Flight, error) {
 		if err != nil {
 			continue
 		}
+
 		dur, err := strconv.Atoi(flight[5])
 		if err != nil {
 			continue
 		}
+		
 		flights = append(flights, f.CreateFlight(id, flight[1], flight[2], flight[3], dur))
 	}
 	return flights, nil
