@@ -1,8 +1,8 @@
 package parsingtxt
 
 import (
-	"errors"
-	"io"
+	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -11,70 +11,81 @@ import (
 	p "github.com/RashRacess/Person"
 )
 
-func Paring_txt_persons(filepath string) ([]p.Person, error) {
+func Parsing_txt_persons(filepath string) ([]p.Person, error) {
 	persons := make([]p.Person, 0, 10)
+
 	file, err := os.Open(filepath)
 	if err != nil {
-		return []p.Person{}, errors.New("error opening file")
+		return nil, fmt.Errorf("error opening file: %w", err)
 	}
 	defer file.Close()
 
-	data := make([]byte, 64)
-	var person []string
-	for {
-		line, err := file.Read(data)
-		if err == io.EOF {
-			break
-		}
-		person = strings.Split(string(line), ";")
-		if len(person) != 4 {
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		parts := strings.Split(strings.TrimSpace(line), ";")
+		if len(parts) != 5 {
+			fmt.Printf("Invalid person data format: %s\n", line)
 			continue
 		}
 
-		id, err := strconv.Atoi(person[0])
+		id, err := strconv.Atoi(parts[0])
 		if err != nil {
+			fmt.Printf("Invalid person ID: %s\n", parts[0])
 			continue
 		}
-		age, err := strconv.Atoi(person[3])
+
+		age, err := strconv.Atoi(parts[4])
 		if err != nil {
+			fmt.Printf("Invalid person age: %s\n", parts[4])
 			continue
 		}
-		persons = append(persons, p.CreatePerson(id, person[1], person[2], age))
+
+		persons = append(persons, p.CreatePerson(id, parts[1], parts[2], parts[3], age))
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading file: %w", err)
+	}
+
 	return persons, nil
 }
 
-func Paring_txt_flights(filepath string) ([]f.Flight, error) {
+func Parsing_txt_flights(filepath string) ([]f.Flight, error) {
 	flights := make([]f.Flight, 0, 10)
 	file, err := os.Open(filepath)
 	if err != nil {
-		return []f.Flight{}, errors.New("error opening file")
+		return nil, fmt.Errorf("error opening file: %w", err)
 	}
 	defer file.Close()
 
-	data := make([]byte, 64)
-	var flight []string
-	for {
-		line, err := file.Read(data)
-		if err == io.EOF {
-			break
-		}
-		flight = strings.Split(string(line), ";")
-		if len(flight) != 4 {
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		parts := strings.Split(line, ";")
+		if len(parts) != 6 {
+			fmt.Printf("Invalid flight data format: %s\n", line)
 			continue
 		}
 
-		id, err := strconv.Atoi(flight[0])
+		id, err := strconv.Atoi(parts[0])
 		if err != nil {
+			fmt.Printf("Invalid flight ID: %s\n", parts[0])
 			continue
 		}
 
-		dur, err := strconv.Atoi(flight[5])
+		duration, err := strconv.Atoi(parts[4])
 		if err != nil {
+			fmt.Printf("Invalid flight duration: %s\n", parts[4])
 			continue
 		}
-		
-		flights = append(flights, f.CreateFlight(id, flight[1], flight[2], flight[3], dur))
+
+		flights = append(flights, f.CreateFlight(id, parts[1], parts[2], parts[3], duration))
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading file: %w", err)
+	}
+
 	return flights, nil
 }
