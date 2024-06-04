@@ -13,5 +13,5 @@ func main() {
 
 	fmt.Println(flight)
 	fmt.Println(person)
-
 }
+

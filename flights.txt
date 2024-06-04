@@ -1,0 +1,6 @@
+1;Minsk;Moscow;16.09.2005;1
+2;London;New-York;25.02.2024;2
+3;minsk;moscow;16.09.2005;1
+4;minsk;moscow;16.09.2005;4
+5;Varshava;moscow;16.09.2005;3
+6;Kiev;Abu-dabi;16.09.2005;8
