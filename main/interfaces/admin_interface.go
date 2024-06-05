@@ -157,9 +157,61 @@ func (ai *AdminInterface) Admin() {
 
 		case 5:
 			fmt.Println("Delete user")
+			fmt.Print("Enter number of person you want to delete: ")
+			var num int
+			fmt.Scan(&num)
+			_ = scanner.Scan()
+
+			file, err := os.OpenFile("../persons.txt", os.O_TRUNC|os.O_WRONLY, 0644)
+			if err != nil {
+				fmt.Println("error opening file: %w", err)
+				break
+			}
+			for _, v := range ai.persons {
+				fmt.Println(v)
+				if v.GetID() != num {
+					toFile := fmt.Sprintf("%d;%s;%s;%s;%d\n", v.GetID(), v.GetSurname(), v.GetName(), v.GetRole(), v.GetAge())
+					_, err = file.WriteString(toFile)
+					if err != nil {
+						fmt.Println("error writing to file: %w", err)
+						continue
+					}
+					fmt.Println(toFile)
+				}
+			}
+			file.Close()
+
+			persons, _ := parsingtxt.Parsing_txt_persons("../persons.txt")
+			ai.persons = persons
 
 		case 6:
 			fmt.Println("Delete flight")
+			fmt.Print("Enter number of flight you want to delete: ")
+			var num int
+			fmt.Scan(&num)
+			_ = scanner.Scan()
+
+			file, err := os.OpenFile("../flights.txt", os.O_TRUNC|os.O_WRONLY, 0644)
+			if err != nil {
+				fmt.Println("error opening file: %w", err)
+				break
+			}
+			for _, v := range ai.flights {
+				fmt.Println(v)
+				if v.GetID() != num {
+					toFile := fmt.Sprintf("%d;%s;%s;%s;%d\n", v.GetID(), v.GetPOD(), v.GetDest(), v.GetTime(), v.GetDuration())
+					_, err = file.WriteString(toFile)
+					if err != nil {
+						fmt.Println("error writing to file: %w", err)
+						continue
+					}
+					fmt.Println(toFile)
+				}
+			}
+			file.Close()
+
+			flights, _ := parsingtxt.Parsing_txt_flights("../flight.txt")
+			ai.flights = flights
 
 		case 7:
 			fmt.Println("Exit")

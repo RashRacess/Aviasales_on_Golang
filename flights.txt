@@ -2,4 +2,3 @@
 2;London;New-York;25.02.2024;2;
 3;Varshava;moscow;16.09.2005;3;
 4;Kiev;Abu-dabi;16.09.2005;8;
-5;q;a;z;3;
