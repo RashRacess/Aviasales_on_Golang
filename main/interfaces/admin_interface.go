@@ -64,8 +64,49 @@ func (ai *AdminInterface) Admin() {
 
 		case 3:
 			fmt.Println("Add person")
-			//id := ai.current_person_id
+			id := ai.current_person_id
 			ai.current_person_id++
+
+			var surname, name, role string
+			var age int
+
+			fmt.Println("Enter surname, name, role")
+			_ = scanner.Scan()
+			surname = scanner.Text()
+			_ = scanner.Scan()
+			name = scanner.Text()
+			_ = scanner.Scan()
+			role = scanner.Text()
+
+			_ = scanner.Scan()
+			parsed, err := strconv.Atoi(scanner.Text())
+			if err != nil {
+				age = 0
+			} else {
+				age = parsed
+			}
+
+			file, err := os.OpenFile("../persons.txt", os.O_APPEND|os.O_WRONLY, 0644)
+			if err != nil {
+				fmt.Println("error opening file: %w", err)
+				break
+			}
+
+			toFile := fmt.Sprintf("\n%d;%s;%s;%s;%d", id, surname, name, role, age)
+			_, err = file.WriteString(toFile)
+			if err != nil {
+				fmt.Println("error writing to file: %w", err)
+				break
+			}
+
+			file.Close()
+
+			persons, err := parsingtxt.Parsing_txt_persons("../persons.txt")
+			if err != nil {
+				fmt.Println("2. ", err.Error())
+			} else {
+				ai.persons = persons
+			}
 
 		case 4:
 			_ = scanner.Scan()
@@ -94,12 +135,11 @@ func (ai *AdminInterface) Admin() {
 
 			file, err := os.OpenFile("../flights.txt", os.O_APPEND|os.O_WRONLY, 0644)
 			if err != nil {
-				fmt.Println("1.error opening file: %w", err)
+				fmt.Println("error opening file: %w", err)
 				break
 			}
 
 			toFile := fmt.Sprintf("\n%d;%s;%s;%s;%d;", id, pod, dest, when, dur)
-			fmt.Println(toFile)
 			_, err = file.WriteString(toFile)
 			if err != nil {
 				fmt.Println("error writing to file: %w", err)
