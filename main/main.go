@@ -28,7 +28,7 @@ func main() {
 	_ = scanner.Scan()
 	name = scanner.Text()
 
-	persons, _ := parsingtxt.Parsing_txt_persons("../persons.txt")
+	persons, _ := parsingtxt.Parsing_txt_persons("./parsing_txt/persons.txt")
 
 	person, err := authentification.Entering(p.CreatePerson(0, surname, name, "user", 0), &persons)
 	if err != nil {
@@ -38,8 +38,8 @@ func main() {
 	if person.GetRole() == "admin" {
 		ai := interfaces.CreateAdminInterface(person)
 		ai.Admin()
-
 	} else {
-		fmt.Println("user")
+		ui := interfaces.CreateUserInterface(person)
+		ui.User()
 	}
 }

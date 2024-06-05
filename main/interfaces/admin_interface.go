@@ -22,9 +22,9 @@ type AdminInterface struct {
 func CreateAdminInterface(p p.Person) AdminInterface {
 	ai := AdminInterface{}
 	ai.admin = p
-	flights, _ := parsingtxt.Parsing_txt_flights("../flights.txt")
+	flights, _ := parsingtxt.Parsing_txt_flights("./parsing_txt/flights.txt")
 	ai.flights = flights
-	persons, _ := parsingtxt.Parsing_txt_persons("../persons.txt")
+	persons, _ := parsingtxt.Parsing_txt_persons("./parsing_txt/persons.txt")
 	ai.persons = persons
 	ai.current_person_id = len(ai.persons) + 1
 	ai.current_flight_id = len(ai.flights) + 1
@@ -32,7 +32,7 @@ func CreateAdminInterface(p p.Person) AdminInterface {
 	return ai
 }
 
-func (ai *AdminInterface) Admin() {
+func (ai AdminInterface) Admin() {
 	scanner := bufio.NewScanner(os.Stdin)
 	var choise int
 	for choise != -1 {
@@ -86,7 +86,7 @@ func (ai *AdminInterface) Admin() {
 				age = parsed
 			}
 
-			file, err := os.OpenFile("../persons.txt", os.O_APPEND|os.O_WRONLY, 0644)
+			file, err := os.OpenFile("./parsing_txt/persons.txt", os.O_APPEND|os.O_WRONLY, 0644)
 			if err != nil {
 				fmt.Println("error opening file: %w", err)
 				break
@@ -101,7 +101,7 @@ func (ai *AdminInterface) Admin() {
 
 			file.Close()
 
-			persons, err := parsingtxt.Parsing_txt_persons("../persons.txt")
+			persons, err := parsingtxt.Parsing_txt_persons("./parsing_txt/persons.txt")
 			if err != nil {
 				fmt.Println("2. ", err.Error())
 			} else {
@@ -162,13 +162,12 @@ func (ai *AdminInterface) Admin() {
 			fmt.Scan(&num)
 			_ = scanner.Scan()
 
-			file, err := os.OpenFile("../persons.txt", os.O_TRUNC|os.O_WRONLY, 0644)
+			file, err := os.OpenFile("./parsing_txt/persons.txt", os.O_TRUNC|os.O_WRONLY, 0644)
 			if err != nil {
 				fmt.Println("error opening file: %w", err)
 				break
 			}
 			for _, v := range ai.persons {
-				fmt.Println(v)
 				if v.GetID() != num {
 					toFile := fmt.Sprintf("%d;%s;%s;%s;%d\n", v.GetID(), v.GetSurname(), v.GetName(), v.GetRole(), v.GetAge())
 					_, err = file.WriteString(toFile)
@@ -176,12 +175,11 @@ func (ai *AdminInterface) Admin() {
 						fmt.Println("error writing to file: %w", err)
 						continue
 					}
-					fmt.Println(toFile)
 				}
 			}
 			file.Close()
 
-			persons, _ := parsingtxt.Parsing_txt_persons("../persons.txt")
+			persons, _ := parsingtxt.Parsing_txt_persons("./parsing_txt/persons.txt")
 			ai.persons = persons
 
 		case 6:
@@ -191,13 +189,12 @@ func (ai *AdminInterface) Admin() {
 			fmt.Scan(&num)
 			_ = scanner.Scan()
 
-			file, err := os.OpenFile("../flights.txt", os.O_TRUNC|os.O_WRONLY, 0644)
+			file, err := os.OpenFile("./parsing_txt/flights.txt", os.O_TRUNC|os.O_WRONLY, 0644)
 			if err != nil {
 				fmt.Println("error opening file: %w", err)
 				break
 			}
 			for _, v := range ai.flights {
-				fmt.Println(v)
 				if v.GetID() != num {
 					toFile := fmt.Sprintf("%d;%s;%s;%s;%d\n", v.GetID(), v.GetPOD(), v.GetDest(), v.GetTime(), v.GetDuration())
 					_, err = file.WriteString(toFile)
@@ -205,12 +202,11 @@ func (ai *AdminInterface) Admin() {
 						fmt.Println("error writing to file: %w", err)
 						continue
 					}
-					fmt.Println(toFile)
 				}
 			}
 			file.Close()
 
-			flights, _ := parsingtxt.Parsing_txt_flights("../flight.txt")
+			flights, _ := parsingtxt.Parsing_txt_flights("./parsing_txt/flights.txt")
 			ai.flights = flights
 
 		case 7:
