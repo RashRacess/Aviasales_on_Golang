@@ -36,7 +36,7 @@ func CreateTicket(id int, pod string, dest string, surname string, name string, 
 	return t
 }
 
-func (t Ticket) String(sep string) string {
+func (t Ticket) String() string {
 	return fmt.Sprintf("%d\t%s\t%s\t%s\t%s\t%s", t.GetID(), t.GetPOD(), t.GetDest(), t.GetSurname(), t.GetName(), t.GetTime())
 }
 
