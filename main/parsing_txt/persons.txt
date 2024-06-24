@@ -1,5 +1,0 @@
-1;Igorev;Ivan;admin;20
-2;Ivanov;Senya;admin;25
-3;Bober;Dima;user;16
-4;Oak;Pavel;user;17
-5;Lycheva;Polina;user;22
