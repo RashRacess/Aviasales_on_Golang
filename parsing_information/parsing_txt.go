@@ -15,6 +15,8 @@ func Parse_txt_persons(filename string) []essence.Person {
 	if err != nil {
 		return []essence.Person{}
 	}
+	defer file.Close()
+	
 	_ = file
 	persons := make([]essence.Person, 0, 15)
 	scanner := bufio.NewScanner(file)
@@ -36,6 +38,8 @@ func Parse_txt_flights(filename string) []essence.Flight {
 	if err != nil {
 		return []essence.Flight{}
 	}
+	defer file.Close()
+
 	flights := make([]essence.Flight, 0, 15)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -71,6 +75,8 @@ func RecordPersonToFile(filename string, data []essence.Person, separator string
 	if err != nil {
 		return err
 	}
+	defer file.Close()
+
 	for _, v := range data {
 		_, err := file.WriteString(v.StringWithSeparator(separator) + "\n")
 		if err != nil {
@@ -85,6 +91,7 @@ func RecordFlightToFile(filename string, data []essence.Flight, separator string
 	if err != nil {
 		return err
 	}
+	defer file.Close()
 	for _, v := range data {
 		_, err := file.WriteString(v.StringWithSeparator(separator) + "\n")
 		if err != nil {

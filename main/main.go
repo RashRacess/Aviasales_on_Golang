@@ -1,11 +1,7 @@
 package main
 
-import (
-	"aviasales/essence"
-	"aviasales/interfaces"
-)
+import "aviasales/auth"
 
 func main() {
-	p := essence.NewPerson(1, "Kozyrev", "Dima", "user")
-	interfaces.UserInterface(p)
+	auth.Froggy()
 }
