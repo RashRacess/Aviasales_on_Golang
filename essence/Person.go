@@ -1,5 +1,7 @@
 package essence
 
+import "fmt"
+
 type Person struct {
 	id_      int
 	surname_ string
@@ -17,6 +19,24 @@ func (p *Person) SetSurname(surname string) { p.surname_ = surname }
 func (p *Person) SetName(name string)       { p.name_ = name }
 func (p *Person) SetRole(role string)       { p.role_ = role }
 
-func CreatePerson(id int, surname, name, role string) Person {
-	return Person{id, surname, name, role}
+func (p *Person) String() string {
+	return fmt.Sprintf("%d - %s - %s - %s", p.GetID(), p.GetSurname(), p.GetName(), p.GetRole())
+}
+
+func NewPerson(id int, surname, name, role string) Person {
+	return Person{
+		id_:      id,
+		surname_: surname,
+		name_:    name,
+		role_:    role,
+	}
+}
+
+func NewPersonWithDefaults() Person {
+	return Person{
+		id_:      -1,
+		surname_: "undef",
+		name_:    "undef",
+		role_:    "undef",
+	}
 }

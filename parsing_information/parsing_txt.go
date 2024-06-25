@@ -26,7 +26,7 @@ func Parse_txt_persons(filename string) []essence.Person {
 		if err != nil {
 			id = 0
 		}
-		persons = append(persons, essence.CreatePerson(id, words[1], words[2], words[3]))
+		persons = append(persons, essence.NewPerson(id, words[1], words[2], words[3]))
 	}
 	return persons
 }

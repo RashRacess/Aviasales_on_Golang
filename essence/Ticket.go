@@ -1,43 +1,50 @@
 package essence
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type Ticket struct {
-	ID   int
-	POD  string
-	Dect string
-	Time time.Time
-	cost int
+	id_   int
+	pod_  string
+	dest_ string
+	time_ time.Time
+	cost_ int
 }
 
-func (t *Ticket) GetID() int         { return t.ID }
-func (t *Ticket) GetPOD() string     { return t.POD }
-func (t *Ticket) GetDect() string    { return t.Dect }
-func (t *Ticket) GetTime() time.Time { return t.Time }
-func (t *Ticket) GetCost() int       { return t.cost }
+func (t *Ticket) GetID() int         { return t.id_ }
+func (t *Ticket) GetPOD() string     { return t.pod_ }
+func (t *Ticket) GetDest() string    { return t.dest_ }
+func (t *Ticket) GetTime() time.Time { return t.time_ }
+func (t *Ticket) GetCost() int       { return t.cost_ }
 
-func (t *Ticket) SetID(id int)           { t.ID = id }
-func (t *Ticket) SetPOD(pod string)      { t.POD = pod }
-func (t *Ticket) SetDect(dect string)    { t.Dect = dect }
-func (t *Ticket) SetTime(time time.Time) { t.Time = time }
-func (t *Ticket) SetCost(cost int)       { t.cost = cost }
+func (t *Ticket) SetID(id int)           { t.id_ = id }
+func (t *Ticket) SetPOD(pod string)      { t.pod_ = pod }
+func (t *Ticket) SetDest(dect string)    { t.dest_ = dect }
+func (t *Ticket) SetTime(time time.Time) { t.time_ = time }
+func (t *Ticket) SetCost(cost int)       { t.cost_ = cost }
+
+func (t *Ticket) String() string {
+	return fmt.Sprintf("%d - %s - %s - %v - %d", t.GetID(), t.GetPOD(), t.GetDest(), t.GetTime().Format("01-02-2006"), t.GetCost())
+}
 
 func NewTicket(id int, pod, dect string, time time.Time, cost int) Ticket {
 	return Ticket{
-		ID:   id,
-		POD:  pod,
-		Dect: dect,
-		Time: time,
-		cost: cost,
+		id_:   id,
+		pod_:  pod,
+		dest_: dect,
+		time_: time,
+		cost_: cost,
 	}
 }
 
-func NewTicketWithDefaultTime() Ticket {
+func NewTicketWithDefault() Ticket {
 	return Ticket{
-		ID:   -1,
-		POD:  "undef",
-		Dect: "undef",
-		Time: time.Now(),
-		cost: -1,
+		id_:   -1,
+		pod_:  "undef",
+		dest_: "undef",
+		time_: time.Now(),
+		cost_: -1,
 	}
 }
