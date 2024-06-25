@@ -65,3 +65,31 @@ func Parse_txt_flights(filename string) []essence.Flight {
 	}
 	return flights
 }
+
+func RecordPersonToFile(filename string, data []essence.Person, separator string) error {
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	for _, v := range data {
+		_, err := file.WriteString(v.StringWithSeparator(separator) + "\n")
+		if err != nil {
+			continue
+		}
+	}
+	return nil
+}
+
+func RecordFlightToFile(filename string, data []essence.Flight, separator string) error {
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	for _, v := range data {
+		_, err := file.WriteString(v.StringWithSeparator(separator) + "\n")
+		if err != nil {
+			continue
+		}
+	}
+	return nil
+}

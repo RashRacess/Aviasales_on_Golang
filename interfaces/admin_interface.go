@@ -80,7 +80,7 @@ func AdminInterface(person essence.Person) {
 
 			fmt.Println("Deleting user:", users[index])
 			users = append(users[:index], users[index+1:]...)
-			RecordPersonToFile("../parsing_information/persons.txt", users, ";")
+			parsinginformation.RecordPersonToFile("../parsing_information/persons.txt", users, ";")
 
 		case 4:
 			notFound := false
@@ -117,7 +117,7 @@ func AdminInterface(person essence.Person) {
 			role := scanner.Text()
 
 			users = append(users, essence.NewPerson(id, surname, name, role))
-			RecordPersonToFile("../parsing_information/persons.txt", users, ";")
+			parsinginformation.RecordPersonToFile("../parsing_information/persons.txt", users, ";")
 
 		case 5:
 			fmt.Println("Showing flights")
@@ -148,7 +148,7 @@ func AdminInterface(person essence.Person) {
 			flights[len(flights)-1] = temp
 			flights = flights[:len(flights)-1]
 
-			RecordFlightToFile("../parsing_information/flights.txt", flights, ";")
+			parsinginformation.RecordFlightToFile("../parsing_information/flights.txt", flights, ";")
 
 		case 7:
 			fmt.Print("Enter flight ID: ")
@@ -188,7 +188,7 @@ func AdminInterface(person essence.Person) {
 			costs, _ := parseCosts(scanner.Text(), " ")
 
 			flights = append(flights, essence.NewFlight(id, pod, dest, date, costs))
-			RecordFlightToFile("../parsing_information/flights.txt", flights, ";")
+			parsinginformation.RecordFlightToFile("../parsing_information/flights.txt", flights, ";")
 
 		case 8:
 			fmt.Println("Goodbye")
@@ -198,34 +198,6 @@ func AdminInterface(person essence.Person) {
 			fmt.Println("Try againg")
 		}
 	}
-}
-
-func RecordPersonToFile(filename string, data []essence.Person, separator string) error {
-	file, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC, 0644)
-	if err != nil {
-		return err
-	}
-	for _, v := range data {
-		_, err := file.WriteString(v.StringWithSeparator(separator) + "\n")
-		if err != nil {
-			continue
-		}
-	}
-	return nil
-}
-
-func RecordFlightToFile(filename string, data []essence.Flight, separator string) error {
-	file, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC, 0644)
-	if err != nil {
-		return err
-	}
-	for _, v := range data {
-		_, err := file.WriteString(v.StringWithSeparator(separator) + "\n")
-		if err != nil {
-			continue
-		}
-	}
-	return nil
 }
 
 func parseCosts(costsStr string, separator string) ([]int, error) {

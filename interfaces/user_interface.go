@@ -23,6 +23,7 @@ func UserInterface(person essence.Person) {
 	var isWork bool = true
 
 	for isWork {
+		ClearScreen()
 		fmt.Println("1. Show profile")
 		fmt.Println("2. Show flights")
 		fmt.Println("3. Show tickets")
@@ -50,8 +51,8 @@ func UserInterface(person essence.Person) {
 
 		case 3:
 			fmt.Println("Your tickets")
-			for _, v := range user.tickets {
-				fmt.Println(v.String())
+			for i, v := range user.tickets {
+				fmt.Printf("%d - %d - %s - %s - %v - %d", i+1, v.GetID(), v.GetPOD(), v.GetDest(), v.GetTime().Format("01-02-2006"), v.GetCost())
 			}
 			_ = scanner.Scan()
 
@@ -81,6 +82,22 @@ func UserInterface(person essence.Person) {
 
 		case 5:
 			fmt.Println("undo tickets")
+			fmt.Println("Enter ticket's number")
+
+			var number int
+			_, err := fmt.Scanf("%d", &number)
+			if err != nil {
+				fmt.Println("Wrong ticket number:", err)
+				return
+			}
+
+			if number < 1 || number > len(user.tickets) {
+				fmt.Println("Invalid ticket number")
+				return
+			}
+
+			fmt.Println("Undoing ticket:", user.tickets[number-1])
+			user.tickets = append(user.tickets[:number-1], user.tickets[number:]...)
 
 		case 6:
 			fmt.Println("Goodbye")
