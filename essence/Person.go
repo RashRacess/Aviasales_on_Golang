@@ -23,6 +23,10 @@ func (p *Person) String() string {
 	return fmt.Sprintf("%d - %s - %s - %s", p.GetID(), p.GetSurname(), p.GetName(), p.GetRole())
 }
 
+func (p *Person) StringWithSeparator(separator string) string {
+	return fmt.Sprintf("%d%s%s%s%s%s%s", p.GetID(), separator, p.GetSurname(), separator, p.GetName(), separator, p.GetRole())
+}
+
 func NewPerson(id int, surname, name, role string) Person {
 	return Person{
 		id_:      id,

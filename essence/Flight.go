@@ -30,6 +30,10 @@ func (f *Flight) String() string {
 	return fmt.Sprintf("%d - %s - %s - %v - %s", f.GetID(), f.GetPOD(), f.GetDest(), f.GetTime().Format("01-02-2006"), strings.Trim(fmt.Sprint(f.GetCosts()), "[]"))
 }
 
+func (f *Flight) StringWithSeparator(separator string) string {
+	return fmt.Sprintf("%d%s%s%s%s%s%v%s%s", f.GetID(), separator, f.GetPOD(), separator, f.GetDest(), separator, f.GetTime().Format("01-02-2006"), separator, strings.Trim(fmt.Sprint(f.GetCosts()), "[]"))
+}
+
 func NewFlight(id int, pod, dect string, t time.Time, costs []int) Flight {
 	return Flight{
 		id_:    id,

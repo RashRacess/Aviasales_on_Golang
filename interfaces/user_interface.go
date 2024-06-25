@@ -14,10 +14,9 @@ type User struct {
 	tickets []essence.Ticket
 }
 
-
 func UserInterface(person essence.Person) {
 	fmt.Println("Hello and welcome to the los pollos...")
-	
+
 	user := User{person, []essence.Ticket{}}
 	var flights = parsinginformation.Parse_txt_flights("../parsing_information/flights.txt")
 	scanner := bufio.NewScanner(os.Stdin)
@@ -38,22 +37,26 @@ func UserInterface(person essence.Person) {
 		}
 		switch choise {
 		case 1:
+			fmt.Println("Your profile")
 			fmt.Printf("%s - %s - %s", user.GetName(), user.GetSurname(), user.GetRole())
 			_ = scanner.Scan()
 
 		case 2:
+			fmt.Println("Available flights")
 			for _, v := range flights {
 				fmt.Println(v.String())
 			}
 			_ = scanner.Scan()
 
 		case 3:
+			fmt.Println("Your tickets")
 			for _, v := range user.tickets {
 				fmt.Println(v.String())
 			}
 			_ = scanner.Scan()
 
 		case 4:
+			fmt.Println("Order ticket")
 			_ = scanner.Scan()
 			ticket_num, err := strconv.Atoi(scanner.Text())
 			if err != nil {
@@ -77,6 +80,7 @@ func UserInterface(person essence.Person) {
 			}
 
 		case 5:
+			fmt.Println("undo tickets")
 
 		case 6:
 			fmt.Println("Goodbye")

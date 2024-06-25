@@ -7,5 +7,5 @@ import (
 
 func main() {
 	p := essence.NewPerson(1, "Kozyrev", "Dima", "user")
-	interfaces.UserInterface(p)
+	interfaces.AdminInterface(p)
 }
